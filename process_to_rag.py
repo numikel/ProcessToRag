@@ -49,7 +49,7 @@ class ProcessToRag:
         return [self.files_list[i:i + self.chunk_size] for i in range(0, self.total_files, self.chunk_size)]
 
     def save_logs(self):
-        log_path = join(self.output_folder, 'logs.txt')
+        log_path = join(self.output_folder, 'process_to_rag_logs.txt')
         with open(log_path, 'w') as f:
             for log in self.logs:
                 f.write(log + '\n')
