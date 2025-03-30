@@ -2,3 +2,5 @@ pypdf
 pymupdf
 tqdm
 langdetect
+transformers
+torch
