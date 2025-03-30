@@ -41,11 +41,6 @@ class ProcessToRag:
             self._merge_files()
             self.logs.append(f'{self._get_current_timestamp()} | [INFO] Merge process finished')
         elif self.process_type == 'mid':
-            '''
-            → ekstrakcja + czyszczenie
-            → chunking (z limitem tokenów)
-            → tłumaczenie na EN (tylko jeśli embedding jest EN-only)
-            '''
             self._extract_content()
             self.logs.append(f'{self._get_current_timestamp()} | [INFO] Mid level process finished')
         else:
