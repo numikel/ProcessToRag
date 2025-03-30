@@ -14,7 +14,7 @@ class ProcessToRag:
             input_folder: str, 
             output_folder: str=None, 
             file_name: str='RAG_output', 
-            process_type: str='merge', 
+            process_type: str='mid', 
             translation: bool =False, 
             merge_file_count: int = 10, 
             encoding: str="utf-8",
@@ -129,7 +129,6 @@ class ProcessToRag:
                 f.write(log + '\n')
 
 if __name__ == '__main__':
-    # input_folder = input('Enter the input folder path: ')
-    input_folder = r"C:\Users\micha\OneDrive\Pulpit\test\pl"
-    process = ProcessToRag(input_folder=input_folder, process_type="mid", translation=False)
+    input_folder = input('Enter the input folder path: ')
+    process = ProcessToRag(input_folder=input_folder)
     process.process()

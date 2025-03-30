@@ -1,6 +1,7 @@
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 from langdetect import detect
 from langdetect.lang_detect_exception import LangDetectException
+from functools import lru_cache
 
 class TranslationTool:
     LANGUAGES_MAP = {
@@ -19,21 +20,25 @@ class TranslationTool:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self.model = AutoModelForSeq2SeqLM.from_pretrained(self.model_name)
 
-    def translate_to_english(self, text: str):
-        if not text:
-            return None
-
-        src_lang = self._detect_source_lang(text)
-        if src_lang == "eng_Latn":
-            return text
-
-        translator = pipeline(
+    @lru_cache(maxsize=32)
+    def _get_translator(self, src_lang: str):
+        return pipeline(
             "translation",
             model=self.model,
             tokenizer=self.tokenizer,
             src_lang=src_lang,
             tgt_lang="eng_Latn"
         )
+
+    def translate_to_english(self, text: str):
+        if not text or not text.strip():
+            return None
+
+        src_lang = self._detect_source_lang(text)
+        if src_lang == "eng_Latn":
+            return text
+
+        translator = self._get_translator(src_lang)
         result = translator(text, max_length=1024)
         return result[0]['translation_text']
 
